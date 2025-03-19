@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * Items represent the basic products held in stock.
+ * - UPC: Universal Product Code (global)
+ * - SKU: Stock Keeping Unit (local)
+ */
+model Items {
+  id          Int         @id @default(autoincrement())
+  UPC         String      @unique
+  SKU         String
+  name        String?
+  description String?
+  quantity    Int         @default(0)
+  supplierId  Int
+  supplier    Suppliers   @relation(fields: [supplierId], references: [id])
+  Inventory   Inventory[]
+
+  @@unique([SKU])
+}
+
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  SN        String   @unique
+  itemId    Int
+  item      Items    @relation(fields: [itemId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Suppliers {
+  id    Int     @id @default(autoincrement())
+  name  String
+  valid Boolean @default(true)
+  Items Items[]
+}
