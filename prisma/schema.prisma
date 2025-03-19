@@ -37,7 +37,7 @@ model Inventory {
 
 model Suppliers {
   id    Int     @id @default(autoincrement())
-  name  String
+  name  String  @unique
   valid Boolean @default(true)
   Items Items[]
 }
