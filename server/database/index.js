@@ -4,10 +4,10 @@ const database = new PrismaClient();
 
 database.$connect()
     .then(() => {
-        console.log(`Prisma has connected to the database...`);
+        console.log(`→ Prisma has connected to the database...`);
     })
     .catch((error) => {
-        console.error(`Failure on database connection...`)
+        console.error(`× Failure on database connection...`)
     })
 
 export default database;
